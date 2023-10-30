@@ -1,0 +1,4 @@
+../FocExtr/Focii/img1_f1.vef
+../FocExtr/Focii/img1_f2.vef
+../FocExtr/Focii/img1_f3.vef
+../FocExtr/Focii/img1_f4.vef
