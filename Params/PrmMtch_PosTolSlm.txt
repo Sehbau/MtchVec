@@ -1,0 +1,8 @@
+#
+# Slim tolerance. Usually around 0.5
+#
+Cnt.tolPos    0.400
+Rsg.tolPos    0.400
+Arc.tolPos    0.400
+Str.tolPos    0.400
+Shp.tolPos    0.400

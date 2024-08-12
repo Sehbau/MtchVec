@@ -1,0 +1,5 @@
+Cnt.wRgb    0
+Rsg.wRgb    0
+Arc.wRgb    0
+Str.wRgb    0
+Shp.wRgb    0

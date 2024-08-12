@@ -1,0 +1,8 @@
+#
+# Enge tolerance. Usually around 0.5
+#
+Cnt.tolPos    0.300
+Rsg.tolPos    0.300
+Arc.tolPos    0.300
+Str.tolPos    0.300
+Shp.tolPos    0.300
