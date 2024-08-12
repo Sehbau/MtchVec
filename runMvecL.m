@@ -1,21 +1,25 @@
 % 
-% Runs program mvecL (1-versus-List), once for images, and once for focii.
+% Runs program mvecL (1-versus-List) for three cases:
+% 1) images (matching vec files)
+% 2) focii  (matching vef files)
+% 3) for focii with function wrapper RennMvecL
+%
+% PREVIOUS  runFocFew.m
 %
 clear;
-cd('c:/klab/ppc/PROD/MtchVec');     % change to directory MtchVec
-progMvecL  = 'mvecL';
+run('../UtilMb/globalsSB');
+cd( PthProg.mtchVec );
 
-addpath('UtilMb');
-addpath('../UtilMb');
+finaProg   = 'mvecL';
 
 %% --------------------------------------------------------------
 %                          Images
 %  --------------------------------------------------------------
-imgT 	= 'Desc/img1.vec';      % testing image 
-aImg    = dir('Desc/*.vec');    % representation/reference image
-finaLst = 'FinasVec.txt';
-SaveFinasFullDir(finaLst, aImg, 'Desc/');
-finaMes = 'MesMtc.txt';
+pthImgTst   = 'Desc/img1.vec';      % testing image 
+aImgNaRep   = dir('Desc/*.vec');    % representation/reference image
+finaLst     = 'FinasVec.txt';
+SaveFipaLstFromDir( aImgNaRep, 'Desc/', finaLst );
+finaMes     = 'MesMtc.txt';
 
 %% --------   Options   --------
 OptK            = u_OptMvecStc();
@@ -29,12 +33,12 @@ OptK.strTolMtc  = 0.08;
 optS            = i_OptMvec(OptK);
 
 %% =========   Command   ========
-cmdImg          = [progMvecL ' ' imgT ' ' finaLst ' ' finaMes ' ' optS];
+cmndImg      = [finaProg ' ' pthImgTst ' ' finaLst ' ' finaMes ' ' optS];
 
-[Sts OutImg]    = dos(cmdImg);
+[Sts OutImg] = dos(cmndImg);
 
 %% -------   Load Matching Results   -------
-MtcImg          = LoadMtchMes(finaMes, length(aImg));
+MtcImg       = LoadMtchMes(finaMes, length(aImgNaRep));
 
 %% -------   Plot Metric Measurements   --------
 figure(1); clf;
@@ -46,21 +50,21 @@ subplot(nr,nc,2); bar(MtcImg(:,2)); title('Similarities');
 %% --------------------------------------------------------------
 %                          Focii
 %  --------------------------------------------------------------
-pthFocii    = '../FocExtr/Focii/';
-aFoc        = dir([pthFocii '*.vef']);
-aFoc        = aFoc(5:end);              % select '*_f1.vef'
-focT        = [pthFocii aFoc(1).name];  % chose some testing image
+dirFocii    = '../FocExtr/Focii/';
+aFocNa      = dir( [dirFocii '*.vef'] );
+aFocNa      = aFocNa(5:end);              % select '*_f1.vef'
+pthFocTst   = [dirFocii aFocNa(1).name];  % chose some testing image
 finaLst     = 'FinasFoc.txt';
-SaveFinasFullDir(finaLst, aFoc, pthFocii);
+SaveFipaLstFromDir( aFocNa, dirFocii, finaLst );
 finaMtcFoc  = 'MesMtcFoc.txt';
 
 %% =========   Command   ========
-cmdFoc      = [progMvecL ' ' focT ' ' finaLst ' ' finaMtcFoc ' ' optS];
+cmndFoc     = [finaProg ' ' pthFocTst ' ' finaLst ' ' finaMtcFoc ' ' optS];
 
-[Sts OutFoc] = dos(cmdFoc);
+[Sts OutFoc] = dos(cmndFoc);
 
 %% -------   Load Matching Results   -------
-MtcFoc   	= LoadMtchMes(finaMtcFoc, length(aFoc));
+MtcFoc   	= LoadMtchMes(finaMtcFoc, length(aFocNa));
 
 %% -------   Plot Metric Measurements  --------
 figure(2); clf;
@@ -74,6 +78,9 @@ subplot(nr,nc,2); bar(MtcFoc(:,2)); title('Similarities');
 %% --------------------------------------------------------------
 %                As Function (for the Two Focii)
 %  --------------------------------------------------------------
-OutFnc  = RennMvecL(focT, finaLst, finaMtcFoc, optS);
+Admin       = u_CmndAdmin();
+Admin.optS  = optS;
+
+OutFnc  = RennMvecL( pthFocTst, finaLst, finaMtcFoc, Admin );
 u_OptUnrec(OutFnc);
 

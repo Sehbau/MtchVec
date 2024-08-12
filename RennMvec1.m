@@ -1,36 +1,36 @@
 %
 % Wrapper routine for program mvec1
-% 
-% IN    vec1    vector file 1, .vec | .vef
-%       vec2    vector file 2, .vec | .vef
-%       Opts    [optional] options
-%       dirProg [optional] path of program
 %
+% sa RennDscx.m
+% 
+% IN    pthVec1 vector file 1, .vec | .vef
+%       pthVec2 vector file 2, .vec | .vef
+%       Admin   administration, u_CmndAdmin.m
 % OUT   Out     standard output
 % 
-function [Out] = RennMvec1(vec1, vec2, Opts, dirProg)
+function [Out] = RennMvec1( pthVec1, pthVec2, Admin )
 
-bDirProg = 0;
-
-if nargin==2, Opts = ''; end
-if nargin>3,  bDirProg = 1; end
-
-cmd  	= ['mvec1 ' vec1 ' ' vec2 ' ' Opts];
-
-if bDirProg
-    cmd = [dirProg cmd];
+if nargin==2, 
+    Admin.pthProg = ''; 
+    Admin.optS    = '';
 end
 
-[Sts Out] = dos(cmd);                   % excecute program
+cmd  	= [Admin.pthProg 'mvec1 ' pthVec1 ' ' pthVec2 ' ' Admin.optS ];
+
+[status Out] = dos(cmd);            % excecute program
+
+%% ------  Status  ------
+if status>0
+    Out
+    warning('Command %s returns exit code > 0 (see Out above)', cmd);
+end
 
 %% ------  Verify Proper Termination  -----
 ixEOP = strfind(Out,'EndOfProgram');
 if isempty(ixEOP)
-    vec1
-    vec2
-    cmd
+    warning('Command %s not executed. See Out below', cmd);
     Out
-    LoadFocVect(vec2);
+    LoadFocVect(pthVec2);
     fprintf('paused'); pause();
 end
 

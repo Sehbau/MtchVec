@@ -1,4 +1,12 @@
+../FocExtr/Focii/aachen_f4.vef
+../FocExtr/Focii/foc1.vef
+../FocExtr/Focii/foc2.vef
+../FocExtr/Focii/img1.vef
 ../FocExtr/Focii/img1_f1.vef
 ../FocExtr/Focii/img1_f2.vef
 ../FocExtr/Focii/img1_f3.vef
 ../FocExtr/Focii/img1_f4.vef
+../FocExtr/Focii/img2_f1.vef
+../FocExtr/Focii/img2_f2.vef
+../FocExtr/Focii/img2_f3.vef
+../FocExtr/Focii/img2_f4.vef
